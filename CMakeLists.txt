@@ -6,6 +6,21 @@ cmake_policy(SET CMP0068 NEW) # new in 3.9. The NEW behavior of this policy is t
 
 project(QtNodesLibrary CXX)
 
+# Set default build type
+if(NOT CMAKE_BUILD_TYPE)
+  message(STATUS "Build type not set - defaulting to Debug")
+  set(
+    CMAKE_BUILD_TYPE "Debug"
+    CACHE
+      STRING
+      "Choose the type of build from:  Debug Release MinSizeRel RelWithDebInfo."
+    FORCE)
+else()
+  if (NOT CMAKE_BUILD_TYPE MATCHES "Debug" AND NOT CMAKE_BUILD_TYPE MATCHES "Release" AND NOT CMAKE_BUILD_TYPE MATCHES "MinSizeRel" AND NOT CMAKE_BUILD_TYPE MATCHES "RelWithDebInfo")
+    message(FATAL_ERROR "Invalid build type: ${CMAKE_BUILD_TYPE}")
+  endif()
+endif()
+
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
@@ -13,11 +28,20 @@ set(CMAKE_DISABLE_SOURCE_CHANGES  ON)
 set(OpenGL_GL_PREFERENCE LEGACY)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-get_directory_property(_has_parent PARENT_DIRECTORY)
-if(_has_parent)
-  set(is_root_project OFF)
-else()
+# Check if QtNodes is being used directly or via add_subdirectory
+if(${CMAKE_SOURCE_DIR} STREQUAL ${PROJECT_SOURCE_DIR})
+  # Warn if not an out-of-source builds
+  if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR})
+    message(
+      FATAL_ERROR
+        "In-source builds not allowed. Please make a new directory (called 'build' directory) and run CMake from there.\n"
+    )
+  endif()
+  message(STATUS "Building QtNodes as a standalone project")
   set(is_root_project ON)
+else()
+  message(STATUS "Building QtNodes as a subproject")
+  set(is_root_project OFF)
 endif()
 
 set(QT_NODES_DEVELOPER_DEFAULTS "${is_root_project}" CACHE BOOL "Turns on default settings for development of QtNodes")
@@ -30,6 +54,14 @@ option(BUILD_DEBUG_POSTFIX_D "Append d suffix to debug libraries" OFF)
 option(QT_NODES_FORCE_TEST_COLOR "Force colorized unit test output" OFF)
 option(USE_QT6 "Build with Qt6 (Enabled by default)" ON)
 
+# If the root project is using Qt5, we should use Qt5 as well
+# This is for add_subdirectory usage
+if (NOT is_root_project)
+  if (Qt5_FOUND)
+    set(USE_QT6 OFF)
+  endif()
+endif()
+
 enable_testing()
 
 if(QT_NODES_DEVELOPER_DEFAULTS)
@@ -41,8 +73,8 @@ endif()
 if(BUILD_DEBUG_POSTFIX_D)
   set(CMAKE_DEBUG_POSTFIX "d")
   set(CMAKE_RELEASE_POSTFIX "")
-  set(CMAKE_RELWITHDEBINFO_POSTFIX "rd")
   set(CMAKE_MINSIZEREL_POSTFIX "s")
+  set(CMAKE_RELWITHDEBINFO_POSTFIX "rd")
 endif()
 
 add_subdirectory(external)
