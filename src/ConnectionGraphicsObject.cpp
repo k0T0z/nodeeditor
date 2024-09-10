@@ -21,6 +21,7 @@
 #include <QtCore/QDebug>
 
 #include <stdexcept>
+#include <cmath>
 
 namespace QtNodes {
 
