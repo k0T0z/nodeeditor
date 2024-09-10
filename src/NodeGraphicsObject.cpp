@@ -80,6 +80,11 @@ BasicGraphicsScene *NodeGraphicsObject::nodeScene() const {
 }
 
 void NodeGraphicsObject::updateQWidgetEmbedPos() {
+	if (!_proxyWidget) {
+		std::cout << "Node: " << _nodeId << " has no QWidget embedded" << std::endl;
+		return;
+	}
+
 	_proxyWidget->setPos(nodeScene()->nodeGeometry().widgetPosition(_nodeId));
 }
 
