@@ -29,7 +29,7 @@ NodeGraphicsObject::NodeGraphicsObject(BasicGraphicsScene &scene, NodeId nodeId)
     setFlag(QGraphicsItem::ItemDoesntPropagateOpacityToChildren, true);
     setFlag(QGraphicsItem::ItemIsFocusable, true);
 
-    setLockedState();
+    setLockedState(_graphModel.nodeFlags(_nodeId));
 
     setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 
@@ -61,10 +61,19 @@ NodeGraphicsObject::NodeGraphicsObject(BasicGraphicsScene &scene, NodeId nodeId)
 
     setPos(pos);
 
-    connect(&_graphModel, &AbstractGraphModel::nodeFlagsUpdated, [this](NodeId const nodeId) {
-        if (_nodeId == nodeId)
-            setLockedState();
-    });
+    connect(&_graphModel, &AbstractGraphModel::nodeFlagsUpdated, this, &NodeGraphicsObject::nodeFlagsUpdated);
+}
+
+void NodeGraphicsObject::nodeFlagsUpdated(NodeId const nodeId) {
+    if (_nodeId != nodeId)
+        return;
+    QObject *obj = sender();
+    if (!obj)
+        return;
+    AbstractGraphModel *ptr = qobject_cast<AbstractGraphModel*>(obj);
+    if (!ptr)
+        return;
+    setLockedState(ptr->nodeFlags(nodeId));
 }
 
 AbstractGraphModel &NodeGraphicsObject::graphModel() const
@@ -114,10 +123,8 @@ void NodeGraphicsObject::embedQWidget()
     }
 }
 
-void NodeGraphicsObject::setLockedState()
+void NodeGraphicsObject::setLockedState(NodeFlags flags)
 {
-    NodeFlags flags = _graphModel.nodeFlags(_nodeId);
-
     bool const locked = flags.testFlag(NodeFlag::Locked);
 
     setFlag(QGraphicsItem::ItemIsMovable, !locked);
@@ -221,7 +228,8 @@ void NodeGraphicsObject::mousePressEvent(QGraphicsSceneMouseEvent *event)
             ConnectionId const incompleteConnectionId = makeIncompleteConnectionId(_nodeId,
                                                                                    portToCheck,
                                                                                    portIndex);
-
+            if (!_graphModel.detachPossible(incompleteConnectionId))
+                continue;
             nodeScene()->makeDraftConnection(incompleteConnectionId);
         }
     }
@@ -232,7 +240,9 @@ void NodeGraphicsObject::mousePressEvent(QGraphicsSceneMouseEvent *event)
         _nodeState.setResizing(hit);
     }
 
-    QGraphicsObject::mousePressEvent(event);
+    if (!event->isAccepted()) {
+        QGraphicsObject::mousePressEvent(event);
+    }
 
     if (isSelected()) {
         Q_EMIT nodeScene()->nodeSelected(_nodeId);
@@ -293,7 +303,9 @@ void NodeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     _nodeState.setResizing(false);
 
-    QGraphicsObject::mouseReleaseEvent(event);
+    if (!event->isAccepted()) {
+        QGraphicsObject::mouseReleaseEvent(event);
+    }
 
     // position connections precisely after fast node move
     moveConnections();

@@ -43,6 +43,7 @@ public:
 
     QColor WarningColor;
     QColor ErrorColor;
+    QColor FillColor;
 
     float PenWidth;
     float HoveredPenWidth;
@@ -50,5 +51,6 @@ public:
     float ConnectionPointDiameter;
 
     float Opacity;
+    float CornerRadius;
 };
 } // namespace QtNodes

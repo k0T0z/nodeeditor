@@ -51,6 +51,8 @@ public:
     void reactToConnection(ConnectionGraphicsObject const *cgo);
 
     void updateQWidgetEmbedPos();
+    
+    void nodeFlagsUpdated(NodeId const nodeId);
 
 protected:
     void paint(QPainter *painter,
@@ -75,10 +77,11 @@ protected:
 
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
 
+
 private:
     void embedQWidget();
 
-    void setLockedState();
+    void setLockedState(NodeFlags flags);
 
 private:
     NodeId _nodeId;
