@@ -18,37 +18,36 @@ class QLabel;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class NumberDisplayDataModel : public NodeDelegateModel
-{
-    Q_OBJECT
+class NumberDisplayDataModel : public NodeDelegateModel {
+	Q_OBJECT
 
 public:
-    NumberDisplayDataModel();
+	NumberDisplayDataModel();
 
-    ~NumberDisplayDataModel() = default;
-
-public:
-    QString caption() const override { return QStringLiteral("Result"); }
-
-    bool captionVisible() const override { return false; }
-
-    QString name() const override { return QStringLiteral("Result"); }
+	~NumberDisplayDataModel() = default;
 
 public:
-    unsigned int nPorts(PortType portType) const override;
+	QString caption() const override { return QStringLiteral("Result"); }
 
-    NodeDataType dataType(PortType portType, PortIndex portIndex) const override;
+	bool captionVisible() const override { return false; }
 
-    std::shared_ptr<NodeData> outData(PortIndex port) override;
+	QString name() const override { return QStringLiteral("Result"); }
 
-    void setInData(std::shared_ptr<NodeData> data, PortIndex portIndex) override;
+public:
+	unsigned int nPorts(PortType portType) const override;
 
-    QWidget *embeddedWidget() override;
+	NodeDataType dataType(PortType portType, PortIndex portIndex) const override;
 
-    double number() const;
+	std::shared_ptr<NodeData> outData(PortIndex port) override;
+
+	void setInData(std::shared_ptr<NodeData> data, PortIndex portIndex) override;
+
+	QWidget *embeddedWidget() override;
+
+	double number() const;
 
 private:
-    std::shared_ptr<DecimalData> _numberData;
+	std::shared_ptr<DecimalData> _numberData;
 
-    QLabel *_label;
+	QLabel *_label;
 };

@@ -15,28 +15,26 @@ using QtNodes::DataFlowGraphModel;
 using QtNodes::GraphicsView;
 using QtNodes::NodeDelegateModelRegistry;
 
-static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
-{
-    auto ret = std::make_shared<NodeDelegateModelRegistry>();
+static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels() {
+	auto ret = std::make_shared<NodeDelegateModelRegistry>();
 
-    ret->registerModel<NaiveDataModel>();
+	ret->registerModel<NaiveDataModel>();
 
-    /*
-     We could have more models registered.
-     All of them become items in the context meny of the scene.
+	/*
+	 We could have more models registered.
+	 All of them become items in the context meny of the scene.
 
-     ret->registerModel<AnotherDataModel>();
-     ret->registerModel<OneMoreDataModel>();
+	 ret->registerModel<AnotherDataModel>();
+	 ret->registerModel<OneMoreDataModel>();
 
    */
 
-    return ret;
+	return ret;
 }
 
-static void setStyle()
-{
-    ConnectionStyle::setConnectionStyle(
-        R"(
+static void setStyle() {
+	ConnectionStyle::setConnectionStyle(
+			R"(
   {
     "ConnectionStyle": {
       "UseDataDefinedColors": true
@@ -47,22 +45,21 @@ static void setStyle()
 
 //------------------------------------------------------------------------------
 
-int main(int argc, char *argv[])
-{
-    QApplication app(argc, argv);
+int main(int argc, char *argv[]) {
+	QApplication app(argc, argv);
 
-    setStyle();
+	setStyle();
 
-    std::shared_ptr<NodeDelegateModelRegistry> registry = registerDataModels();
-    DataFlowGraphModel dataFlowGraphModel(registry);
+	std::shared_ptr<NodeDelegateModelRegistry> registry = registerDataModels();
+	DataFlowGraphModel dataFlowGraphModel(registry);
 
-    DataFlowGraphicsScene scene(dataFlowGraphModel);
+	DataFlowGraphicsScene scene(dataFlowGraphModel);
 
-    GraphicsView view(&scene);
+	GraphicsView view(&scene);
 
-    view.setWindowTitle("Node-based flow editor");
-    view.resize(800, 600);
-    view.show();
+	view.setWindowTitle("Node-based flow editor");
+	view.resize(800, 600);
+	view.show();
 
-    return app.exec();
+	return app.exec();
 }

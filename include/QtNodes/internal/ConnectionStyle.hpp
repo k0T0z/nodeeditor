@@ -7,50 +7,49 @@
 
 namespace QtNodes {
 
-class NODE_EDITOR_PUBLIC ConnectionStyle : public Style
-{
+class NODE_EDITOR_PUBLIC ConnectionStyle : public Style {
 public:
-    ConnectionStyle();
+	ConnectionStyle();
 
-    ConnectionStyle(QString jsonText);
+	ConnectionStyle(QString jsonText);
 
-    ~ConnectionStyle() = default;
-
-public:
-    static void setConnectionStyle(QString jsonText);
+	~ConnectionStyle() = default;
 
 public:
-    void loadJson(QJsonObject const &json) override;
-
-    QJsonObject toJson() const override;
+	static void setConnectionStyle(QString jsonText);
 
 public:
-    QColor constructionColor() const;
-    QColor normalColor() const;
-    QColor normalColor(QString typeId) const;
-    QColor selectedColor() const;
-    QColor selectedHaloColor() const;
-    QColor hoveredColor() const;
+	void loadJson(QJsonObject const &json) override;
 
-    float lineWidth() const;
-    float constructionLineWidth() const;
-    float pointDiameter() const;
+	QJsonObject toJson() const override;
 
-    bool useDataDefinedColors() const;
-    bool withArrow() const;
+public:
+	QColor constructionColor() const;
+	QColor normalColor() const;
+	QColor normalColor(QString typeId) const;
+	QColor selectedColor() const;
+	QColor selectedHaloColor() const;
+	QColor hoveredColor() const;
+
+	float lineWidth() const;
+	float constructionLineWidth() const;
+	float pointDiameter() const;
+
+	bool useDataDefinedColors() const;
+	bool withArrow() const;
 
 private:
-    QColor ConstructionColor;
-    QColor NormalColor;
-    QColor SelectedColor;
-    QColor SelectedHaloColor;
-    QColor HoveredColor;
+	QColor ConstructionColor;
+	QColor NormalColor;
+	QColor SelectedColor;
+	QColor SelectedHaloColor;
+	QColor HoveredColor;
 
-    float LineWidth;
-    float ConstructionLineWidth;
-    float PointDiameter;
+	float LineWidth;
+	float ConstructionLineWidth;
+	float PointDiameter;
 
-    bool UseDataDefinedColors;
-    bool WithArrow;
+	bool UseDataDefinedColors;
+	bool WithArrow;
 };
 } // namespace QtNodes

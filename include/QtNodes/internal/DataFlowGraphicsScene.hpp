@@ -11,30 +11,29 @@ namespace QtNodes {
  * The class represents a scene that existed in v2.x but built wit the
  * new model-view approach in mind.
  */
-class NODE_EDITOR_PUBLIC DataFlowGraphicsScene : public BasicGraphicsScene
-{
-    Q_OBJECT
+class NODE_EDITOR_PUBLIC DataFlowGraphicsScene : public BasicGraphicsScene {
+	Q_OBJECT
 public:
-    DataFlowGraphicsScene(DataFlowGraphModel &graphModel, QObject *parent = nullptr);
+	DataFlowGraphicsScene(DataFlowGraphModel &graphModel, QObject *parent = nullptr);
 
-    ~DataFlowGraphicsScene() = default;
-
-public:
-    std::vector<NodeId> selectedNodes() const;
+	~DataFlowGraphicsScene() = default;
 
 public:
-    QMenu *createSceneMenu(QPointF const scenePos) override;
+	std::vector<NodeId> selectedNodes() const;
+
+public:
+	QMenu *createSceneMenu(QPointF const scenePos) override;
 
 public Q_SLOTS:
-    bool save() const;
+	bool save() const;
 
-    bool load();
+	bool load();
 
 Q_SIGNALS:
-    void sceneLoaded();
+	void sceneLoaded();
 
 private:
-    DataFlowGraphModel &_graphModel;
+	DataFlowGraphModel &_graphModel;
 };
 
 } // namespace QtNodes

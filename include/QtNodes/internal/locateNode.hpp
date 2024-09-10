@@ -10,7 +10,7 @@ namespace QtNodes {
 class NodeGraphicsObject;
 
 NodeGraphicsObject *locateNodeAt(QPointF scenePoint,
-                                 QGraphicsScene &scene,
-                                 QTransform const &viewTransform);
+		QGraphicsScene &scene,
+		QTransform const &viewTransform);
 
 } // namespace QtNodes

@@ -19,19 +19,17 @@ using QtNodes::GraphicsViewStyle;
 using QtNodes::NodeDelegateModelRegistry;
 using QtNodes::NodeStyle;
 
-static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
-{
-    auto ret = std::make_shared<NodeDelegateModelRegistry>();
+static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels() {
+	auto ret = std::make_shared<NodeDelegateModelRegistry>();
 
-    ret->registerModel<MyDataModel>();
+	ret->registerModel<MyDataModel>();
 
-    return ret;
+	return ret;
 }
 
-static void setStyle()
-{
-    GraphicsViewStyle::setStyle(
-        R"(
+static void setStyle() {
+	GraphicsViewStyle::setStyle(
+			R"(
   {
     "GraphicsViewStyle": {
       "BackgroundColor": [255, 255, 240],
@@ -41,8 +39,8 @@ static void setStyle()
   }
   )");
 
-    NodeStyle::setNodeStyle(
-        R"(
+	NodeStyle::setNodeStyle(
+			R"(
   {
     "NodeStyle": {
       "NormalBoundaryColor": "darkgray",
@@ -64,8 +62,8 @@ static void setStyle()
   }
   )");
 
-    ConnectionStyle::setConnectionStyle(
-        R"(
+	ConnectionStyle::setConnectionStyle(
+			R"(
   {
     "ConnectionStyle": {
       "ConstructionColor": "gray",
@@ -84,22 +82,21 @@ static void setStyle()
   )");
 }
 
-int main(int argc, char *argv[])
-{
-    QApplication app(argc, argv);
+int main(int argc, char *argv[]) {
+	QApplication app(argc, argv);
 
-    setStyle();
+	setStyle();
 
-    std::shared_ptr<NodeDelegateModelRegistry> registry = registerDataModels();
-    DataFlowGraphModel dataFlowGraphModel(registry);
+	std::shared_ptr<NodeDelegateModelRegistry> registry = registerDataModels();
+	DataFlowGraphModel dataFlowGraphModel(registry);
 
-    DataFlowGraphicsScene scene(dataFlowGraphModel);
+	DataFlowGraphicsScene scene(dataFlowGraphModel);
 
-    GraphicsView view(&scene);
+	GraphicsView view(&scene);
 
-    view.setWindowTitle("Style example");
-    view.resize(800, 600);
-    view.show();
+	view.setWindowTitle("Style example");
+	view.resize(800, 600);
+	view.show();
 
-    return app.exec();
+	return app.exec();
 }

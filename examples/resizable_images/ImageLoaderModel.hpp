@@ -18,40 +18,39 @@ using QtNodes::PortType;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class ImageLoaderModel : public NodeDelegateModel
-{
-    Q_OBJECT
+class ImageLoaderModel : public NodeDelegateModel {
+	Q_OBJECT
 
 public:
-    ImageLoaderModel();
+	ImageLoaderModel();
 
-    ~ImageLoaderModel() = default;
-
-public:
-    QString caption() const override { return QString("Image Source"); }
-
-    QString name() const override { return QString("ImageLoaderModel"); }
+	~ImageLoaderModel() = default;
 
 public:
-    virtual QString modelName() const { return QString("Source Image"); }
+	QString caption() const override { return QString("Image Source"); }
 
-    unsigned int nPorts(PortType const portType) const override;
+	QString name() const override { return QString("ImageLoaderModel"); }
 
-    NodeDataType dataType(PortType const portType, PortIndex const portIndex) const override;
+public:
+	virtual QString modelName() const { return QString("Source Image"); }
 
-    std::shared_ptr<NodeData> outData(PortIndex const port) override;
+	unsigned int nPorts(PortType const portType) const override;
 
-    void setInData(std::shared_ptr<NodeData>, PortIndex const portIndex) override {}
+	NodeDataType dataType(PortType const portType, PortIndex const portIndex) const override;
 
-    QWidget *embeddedWidget() override { return _label; }
+	std::shared_ptr<NodeData> outData(PortIndex const port) override;
 
-    bool resizable() const override { return true; }
+	void setInData(std::shared_ptr<NodeData>, PortIndex const portIndex) override {}
+
+	QWidget *embeddedWidget() override { return _label; }
+
+	bool resizable() const override { return true; }
 
 protected:
-    bool eventFilter(QObject *object, QEvent *event) override;
+	bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
-    QLabel *_label;
+	QLabel *_label;
 
-    QPixmap _pixmap;
+	QPixmap _pixmap;
 };

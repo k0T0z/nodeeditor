@@ -7,30 +7,26 @@ using QtNodes::NodeDataType;
 using QtNodes::NodeDelegateModel;
 using QtNodes::NodeDelegateModelRegistry;
 
-std::unique_ptr<NodeDelegateModel> NodeDelegateModelRegistry::create(QString const &modelName)
-{
-    auto it = _registeredItemCreators.find(modelName);
+std::unique_ptr<NodeDelegateModel> NodeDelegateModelRegistry::create(QString const &modelName) {
+	auto it = _registeredItemCreators.find(modelName);
 
-    if (it != _registeredItemCreators.end()) {
-        return it->second();
-    }
+	if (it != _registeredItemCreators.end()) {
+		return it->second();
+	}
 
-    return nullptr;
+	return nullptr;
 }
 
 NodeDelegateModelRegistry::RegisteredModelCreatorsMap const &
-NodeDelegateModelRegistry::registeredModelCreators() const
-{
-    return _registeredItemCreators;
+NodeDelegateModelRegistry::registeredModelCreators() const {
+	return _registeredItemCreators;
 }
 
 NodeDelegateModelRegistry::RegisteredModelsCategoryMap const &
-NodeDelegateModelRegistry::registeredModelsCategoryAssociation() const
-{
-    return _registeredModelsCategory;
+NodeDelegateModelRegistry::registeredModelsCategoryAssociation() const {
+	return _registeredModelsCategory;
 }
 
-NodeDelegateModelRegistry::CategoriesSet const &NodeDelegateModelRegistry::categories() const
-{
-    return _categories;
+NodeDelegateModelRegistry::CategoriesSet const &NodeDelegateModelRegistry::categories() const {
+	return _categories;
 }
