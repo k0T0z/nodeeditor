@@ -1,6 +1,9 @@
 QtNodes
 #######
 
+> [!NOTE]  
+> A fork of the original project [nodeeditor](https://github.com/paceholder/nodeeditor.git) by [paceholder](https://github.com/paceholder).
+
 https://github.com/paceholder/nodeeditor/actions/workflows/cmake_build.yml/badge.svg
 
 Introduction
