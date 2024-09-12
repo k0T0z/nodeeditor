@@ -264,29 +264,28 @@ PasteCommand::PasteCommand(BasicGraphicsScene *scene, QPointF const &mouseSceneP
 }
 
 void PasteCommand::undo() {
-	deleteSerializedItems(_newSceneJson, _scene->graphModel());
+	// deleteSerializedItems(_newSceneJson, _scene->graphModel());
 }
 
 void PasteCommand::redo() {
-	_scene->clearSelection();
+	// _scene->clearSelection();
 
-	// Ignore if pasted in content does not generate nodes.
-	try {
-		insertSerializedItems(_newSceneJson, _scene);
-	} catch (...) {
-		// If the paste does not work, delete all selected nodes and connections
-		// `deleteNode(...)` implicitly removed connections
-		auto &graphModel = _scene->graphModel();
+	// // Ignore if pasted in content does not generate nodes.
+	// try {
+	// 	insertSerializedItems(_newSceneJson, _scene);
+	// } catch (...) {
+	// 	// If the paste does not work, delete all selected nodes and connections
+	// 	// `deleteNode(...)` implicitly removed connections
+	// 	auto &graphModel = _scene->graphModel();
 
-		QJsonArray nodesJsonArray;
-		for (QGraphicsItem *item : _scene->selectedItems()) {
-			if (auto n = qgraphicsitem_cast<NodeGraphicsObject *>(item)) {
-				graphModel.deleteNode(n->nodeId());
-			}
-		}
+	// 	QJsonArray nodesJsonArray;
+	// 	for (QGraphicsItem *item : _scene->selectedItems()) {
+	// 		if (auto n = qgraphicsitem_cast<NodeGraphicsObject *>(item)) {
+	// 			graphModel.deleteNode(n->nodeId());
+	// 		}
+	// 	}
 
-		setObsolete(true);
-	}
+	// 	setObsolete(true);
 }
 
 QJsonObject PasteCommand::takeSceneJsonFromClipboard() {

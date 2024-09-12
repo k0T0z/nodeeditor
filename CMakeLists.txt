@@ -62,6 +62,19 @@ if (NOT is_root_project)
   endif()
 endif()
 
+if(MSVC)
+    string(APPEND CMAKE_CXX_FLAGS " /EHsc /wd26812")
+    string(APPEND CMAKE_C_FLAGS " /EHsc /wd26812")
+endif()
+
+# Disable C++ exceptions.
+if(MSVC)
+    string(REGEX REPLACE "/EHsc" "/EHs-c-" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+    add_definitions(-D_HAS_EXCEPTIONS=0)
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -fno-unwind-tables -fno-asynchronous-unwind-tables")
+endif()
+
 enable_testing()
 
 if(QT_NODES_DEVELOPER_DEFAULTS)

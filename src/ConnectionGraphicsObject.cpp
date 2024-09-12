@@ -285,7 +285,8 @@ std::pair<QPointF, QPointF> ConnectionGraphicsObject::pointsC1C2() const {
 			break;
 	}
 
-	throw std::logic_error("Unreachable code after switch statement");
+	// throw std::logic_error("Unreachable code after switch statement");
+	return std::make_pair(QPointF(), QPointF());
 }
 
 void ConnectionGraphicsObject::addGraphicsEffect() {
